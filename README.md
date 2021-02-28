@@ -38,5 +38,5 @@ make unit-test
 ## Running
 
 ```sh
-make run-local
+make all
 ```
