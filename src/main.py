@@ -1,28 +1,16 @@
-import src.lessons.lesson_one as lesson_one
+import uvicorn
+
+from src.api.config import FASTAPI_LOG_LEVEL
+from src.api.initializer import init_api
+
+api = init_api()
 
 
-def run():
-    run_lesson_one()
-
-
-def run_lesson_one():
-    print("1. Simple Hello World")
-    print(lesson_one.hello_world())
-    print("#######################################")
-    print("")
-    print("2. Why Python?")
-    print(lesson_one.why_python())
-    print("#######################################")
-    print("")
-    print(
-        """3. Mutable default attributes - what do you get after calling
-    a method with _add_elements(element=[]) more than once?"""
+def start_app():
+    uvicorn.run(
+        api,
+        host="0.0.0.0",
+        port=8000,
+        log_level=FASTAPI_LOG_LEVEL,
+        use_colors=True,
     )
-    print(lesson_one.mutable_default_attributes())
-    print("#######################################")
-    print("")
-    print("Is Enumerator better optimized than range?")
-    print(lesson_one.enumerator_over_range())
-    print("Yes, but if you dont need that index just use in <collection> syntax")
-    print("#######################################")
-    print("")

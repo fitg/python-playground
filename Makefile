@@ -7,7 +7,13 @@ lint:
 black:
 	poetry run black .
 
-run:
-	poetry run run_local
+start:
+	./scripts/run_local.sh
 
-all: unit-test black lint run
+smoke:
+	./scripts/test_service.sh
+
+destroy:
+	docker rm -f python-playground
+
+all: unit-test black lint start smoke destroy

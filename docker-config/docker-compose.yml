@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  python-playground:
+    container_name: python-playground
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    environment:
+      - RUNTIME_ENV=development
+      - FASTAPI_LOG_LEVEL=debug
+    ports:
+      - "8000:8000"
