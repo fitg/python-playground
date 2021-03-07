@@ -1,4 +1,4 @@
-FROM hub.docker.zoopla.it/library/python:3.8-slim AS buildbase
+FROM python:3.8-slim
 
 WORKDIR /opt
 
