@@ -11,12 +11,15 @@ class LessonFactory:
         elif lesson_number == 2:
             return LessonTwoInterface()
         else:
-            self._default()
+            self._default(lesson_number)
 
     # If user enters invalid option then this method will be called
-    def _default(self):
+    def _default(self, lesson_number: int):
         # following fast api choice of 422 over 400 --> https://github.com/tiangolo/fastapi/issues/643
-        raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="ERROR: This lesson does not exist yet.")
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            detail=f"ERROR: This lesson does not exist yet lesson: {lesson_number}.",
+        )
 
 
 factory = LessonFactory()

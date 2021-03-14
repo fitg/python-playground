@@ -6,11 +6,11 @@ import src.service.lesson_selector as lesson_selector
 
 @pytest.mark.unittest
 def test_default():
-    expected_text = "ERROR: This lesson does not exist yet."
+    expected_text = "ERROR: This lesson does not exist yet lesson: -222."
     expected_code = status.HTTP_422_UNPROCESSABLE_ENTITY
 
     with pytest.raises(HTTPException) as exc_info:
-        lesson_selector.factory._default()
+        lesson_selector.factory._default(-222)
 
     assert expected_text == exc_info.value.detail
     assert expected_code == exc_info.value.status_code
@@ -18,7 +18,7 @@ def test_default():
 
 @pytest.mark.unittest
 def test_select_lesson_not_exists():
-    expected_text = "ERROR: This lesson does not exist yet."
+    expected_text = "ERROR: This lesson does not exist yet lesson: -222."
     expected_code = status.HTTP_422_UNPROCESSABLE_ENTITY
 
     with pytest.raises(HTTPException) as exc_info:
