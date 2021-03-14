@@ -10,7 +10,7 @@ class LessonTwoInterface(LessonsInterface):
     white_wine: None
 
     def execute(self, action: str, url: str) -> str:
-        """Overrides LessonsInterface.action()"""
+        """Overrides LessonsInterface.execute()"""
         if action == "describe":
             return self._run_lesson_two(url)
         else:

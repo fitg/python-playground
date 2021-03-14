@@ -85,7 +85,7 @@ No Specials alphabet: {alphabet_nospecials}; Time: {ns_time}s"""
 
 class LessonOneInterface(LessonsInterface):
     def execute(self, action: str, url: str) -> str:
-        """Overrides LessonsInterface.action()"""
+        """Overrides LessonsInterface.execute()"""
         if action == "run":
             return self._run_lesson_one()
         else:
