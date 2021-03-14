@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "python-playground"
-version = "0.0.1"
+version = "0.0.3"
 description = "fun with python"
 authors = ["Gustaw Fit <gustaw.fit@gmail.com>"]
 packages = [
@@ -17,6 +17,9 @@ python-json-logger = "^2.0.1"
 httpx = "^0.16.1"
 pytest-asyncio = "^0.14.0"
 requests = "^2.25.1"
+mypy = "^0.812"
+pandas = "^1.2.3"
+matplotlib = "^3.3.4"
 
 [tool.poetry.dev-dependencies]
 flake8 = "^3.8.4"
@@ -41,3 +44,4 @@ markers = [
 
 [tool.poetry.scripts]
 start_app = "src.main:start_app"
+lesson_two = "src.service.lessons.lesson_two:run_lesson_two"

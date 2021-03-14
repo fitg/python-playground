@@ -1,14 +1,27 @@
-from src.service.lessons.lesson_one import run_lesson_one
+from fastapi import status, HTTPException
 
-lessons_dict = {
-    1: run_lesson_one,
-}
-
-
-def select_lesson(lesson_number: int):
-    return lessons_dict.get(lesson_number, default)()
+from src.service.lessons.lesson_one import LessonOneInterface
+from src.service.lessons.lesson_two import LessonTwoInterface
 
 
-# If user enters invalid option then this method will be called
-def default():
-    return "ERROR: This lesson does not exist yet."
+class LessonFactory:
+    def get_lesson(self, lesson_number: int):
+        if lesson_number == 1:
+            return LessonOneInterface()
+        elif lesson_number == 2:
+            return LessonTwoInterface()
+        else:
+            self._default()
+
+    # If user enters invalid option then this method will be called
+    def _default(self):
+        # following fast api choice of 422 over 400 --> https://github.com/tiangolo/fastapi/issues/643
+        raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="ERROR: This lesson does not exist yet.")
+
+
+factory = LessonFactory()
+
+
+def execute_lesson(lesson_number: int, action: str, url: str):
+    interface = factory.get_lesson(lesson_number)
+    return interface.execute(action, url)

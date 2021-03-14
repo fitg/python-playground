@@ -1,5 +1,9 @@
 import time
 
+from fastapi import status, HTTPException
+
+from src.service.lesson_interface import LessonsInterface
+
 
 def hello_world():
     return "Hello World!"
@@ -33,7 +37,7 @@ def mutable_default_attributes():
     return _add_elements()
 
 
-def _range(alphabet: str):
+def _range(alphabet: list):
     output = ""
     start = time.time()
     for i in range(len(alphabet)):
@@ -44,7 +48,7 @@ def _range(alphabet: str):
     return exec_time, output
 
 
-def _enumerator(alphabet: str):
+def _enumerator(alphabet: list):
     output = ""
     start = time.time()
     for i, letter in enumerate(alphabet):
@@ -55,7 +59,7 @@ def _enumerator(alphabet: str):
     return exec_time, output
 
 
-def _no_specials(alphabet: str):
+def _no_specials(alphabet: list):
     output = ""
     start = time.time()
     for letter in alphabet:
@@ -79,20 +83,31 @@ Range alphabet: {alphabet_ranges}; Time: {r_time}s
 No Specials alphabet: {alphabet_nospecials}; Time: {ns_time}s"""
 
 
-def run_lesson_one():
-    return f"""
-    1. Simple Hello World
-    {hello_world()}
-    #######################################
-    2. Why Python?
-    {why_python()}
-    #######################################
-    3. Mutable default attributes - what do you get after calling
-    a method with _add_elements(element=[]) more than once?
-    {mutable_default_attributes()}
-    #######################################
-    Is Enumerator better optimized than range?
-    {enumerator_over_range()}
-    Yes, but if you dont need that index just use in <collection> syntax
-    #######################################
-    """
+class LessonOneInterface(LessonsInterface):
+    def execute(self, action: str, url: str) -> str:
+        """Overrides LessonsInterface.action()"""
+        if action == "run":
+            return self._run_lesson_one()
+        else:
+            # following fast api choice of 422 over 400 --> https://github.com/tiangolo/fastapi/issues/643
+            raise HTTPException(
+                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=f"ERROR: Action not allowed: {action} for lesson 1"
+            )
+
+    def _run_lesson_one(self) -> str:
+        return f"""
+        1. Simple Hello World
+        {hello_world()}
+        #######################################
+        2. Why Python?
+        {why_python()}
+        #######################################
+        3. Mutable default attributes - what do you get after calling
+        a method with _add_elements(element=[]) more than once?
+        {mutable_default_attributes()}
+        #######################################
+        Is Enumerator better optimized than range?
+        {enumerator_over_range()}
+        Yes, but if you dont need that index just use in <collection> syntax
+        #######################################
+        """

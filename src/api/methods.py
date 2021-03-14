@@ -1,30 +1,10 @@
 from fastapi import status, APIRouter
 from fastapi.responses import JSONResponse
-from pydantic import BaseModel, Field
 
-from src.service.lesson_selector import select_lesson
+from src.service.lesson_selector import execute_lesson
+from src.api.models import LessonRequest, LessonResponseText  # type: ignore
 
 router = APIRouter()
-
-
-class LessonRequest(BaseModel):
-    """Represents the lesson to be called"""
-
-    lesson_number: int = Field(
-        ...,
-        description="lesson number request",
-        example="example: 1",
-    )
-
-
-class LessonResponseText(BaseModel):
-    """Represents a text stream response"""
-
-    response_text: str = Field(
-        ...,
-        description="raw lessons text",
-        example="results of a lesson text",
-    )
 
 
 @router.get(
@@ -55,6 +35,6 @@ async def check_health():
     },
     response_class=JSONResponse,
 )
-async def return_lesson(lesson_number: LessonRequest):
+async def return_lesson(lesson: LessonRequest):
     """returns lessons"""
-    return {"response_text": select_lesson(lesson_number.lesson_number)}
+    return {"response_text": execute_lesson(lesson.lesson_number, str(lesson.action), str(lesson.data_url))}

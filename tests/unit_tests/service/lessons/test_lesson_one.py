@@ -1,3 +1,4 @@
+from fastapi import status, HTTPException
 import pytest
 
 import src.service.lessons.lesson_one as lesson_one
@@ -45,3 +46,17 @@ def test_mutable_default_attributes():
 def test_enumerator_over_range():
     actual = lesson_one.enumerator_over_range()
     assert actual != ""
+
+
+@pytest.mark.unittest
+def test_execute_method_fails():
+    expected_text = "ERROR: Action not allowed: describe for lesson 1"
+    expected_code = status.HTTP_422_UNPROCESSABLE_ENTITY
+
+    interface = lesson_one.LessonOneInterface()
+
+    with pytest.raises(HTTPException) as exc_info:
+        interface.execute("describe", "")
+
+    assert expected_text == exc_info.value.detail
+    assert expected_code == exc_info.value.status_code
